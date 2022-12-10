@@ -7,7 +7,7 @@ Feature: Create student
     When I send POST request to "api/students/student" endpoint with following information
       | first-name      | Tarik                  |
       | last-name       | Cetin                  |
-      | email           | tarikcetin61@gmail.com |
+      | email           | tarikcetin64@gmail.com |
       | password        | abc12345               |
       | role            | student-team-leader    |
       | campus-location | VA                     |
