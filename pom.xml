@@ -25,7 +25,7 @@
                     <useUnlimitedThreads>true</useUnlimitedThreads>
                     -->
                     <threadCount>4</threadCount>
-                    <perCoreThreadCount>false</perCoreThreadCount>
+                    <perCoreThreadCount>true</perCoreThreadCount>
                     <testFailureIgnore>true</testFailureIgnore>
                     <runOrder>Alphabetical</runOrder>
                     <includes>

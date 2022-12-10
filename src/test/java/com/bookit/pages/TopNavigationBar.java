@@ -6,7 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public abstract class TopNavigationBar {
+public class TopNavigationBar {
 	public TopNavigationBar() {
 		PageFactory.initElements(Driver.get(), this);
 	}
@@ -20,7 +20,7 @@ public abstract class TopNavigationBar {
 	@FindBy(linkText = "hunt")
 	public WebElement hunt;
 
-	@FindBy(linkText = "my")
+	@FindBy(xpath = "(//a[@class='navbar-link'])[2]")
 	public WebElement my;
 
 	@FindBy(linkText = "self")

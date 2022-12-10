@@ -1,24 +1,23 @@
 package com.bookit.step_definitions;
 
 import com.bookit.pages.SelfPage;
-import com.bookit.utilities.BookItApiUtil;
-import com.bookit.utilities.ConfigurationReader;
-import com.bookit.utilities.DBUtils;
-import com.bookit.utilities.Environment;
+import com.bookit.pages.SignInPage;
+import com.bookit.utilities.*;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.junit.Assert;
 
+import java.awt.print.Book;
 import java.util.Map;
 
 import static io.restassured.RestAssured.*;
 
 public class ApiStepDefs {
+
     String token;
     Response response;
     String emailGlobal;
@@ -28,8 +27,9 @@ public class ApiStepDefs {
     @Given("I logged Bookit api using {string} and {string}")
     public void i_logged_Bookit_api_using_and(String email, String password) {
 
-        token = BookItApiUtil.generateToken(email,password);
+        token= BookItApiUtil.generateToken(email, password);
         emailGlobal = email;
+        System.out.println(token);
     }
 
     @When("I get the current user information from api")
@@ -37,24 +37,19 @@ public class ApiStepDefs {
         System.out.println("token = " + token);
 
         //send a GET request "/api/users/me" endpoint to get current user info
-
-         response = given().accept(ContentType.JSON)
-                .and()
-                .header("Authorization", token)
-                .when()
-                .get(Environment.BASE_URL + "/api/users/me");
-
+        response = given().accept(ContentType.JSON)
+                .and().header("Authorization", token)
+                .when().get(Environment.BASE_URL + "api/users/me");
     }
 
     @Then("status code should be {int}")
     public void status_code_should_be(int statusCode) {
-        //verify status code matches with the feature file expected status code
-        Assert.assertEquals(statusCode,response.statusCode());
-
+        Assert.assertEquals(statusCode, response.statusCode());
     }
 
     @Then("the information about current user from api and database should match")
-    public void theInformationAboutCurrentUserFromApiAndDatabaseShouldMatch() {
+    public void the_information_about_current_user_from_api_and_database_should_match() {
+
         System.out.println("we will compare database and api in this step");
 
         //get information from database
@@ -112,7 +107,7 @@ public class ApiStepDefs {
         System.out.println("actualUIName = " + actualUIName);
         System.out.println("actualUIRole = " + actualUIRole);
 
-         //UI vs DB
+        //UI vs DB
         String expectedFullName = expectedFirstName+" "+expectedLastName;
         //verify ui fullname vs db fullname
         Assert.assertEquals(expectedFullName,actualUIName);
@@ -128,35 +123,44 @@ public class ApiStepDefs {
 
     }
 
+
+
     @When("I send POST request to {string} endpoint with following information")
     public void i_send_POST_request_to_endpoint_with_following_information(String path, Map<String,String> studentInfo) {
         //why we prefer to get information as a map from feature file ?
         //bc we have queryParams method that takes map and pass to url as query key&value structure
-        System.out.println("studentInfo = " + studentInfo);
 
-        //assign email and password value to these variables so that we can use them later for deleting
-        studentEmail = studentInfo.get("email");
-        studentPassword = studentInfo.get("password");
+        studentEmail= studentInfo.get("email");
+        studentPassword=studentInfo.get("password");
 
         response = given().accept(ContentType.JSON)
                 .queryParams(studentInfo)
-                .and().header("Authorization",token)
                 .log().all()
-                .when()
-                .post(Environment.BASE_URL + path)
-        .then().log().all().extract().response();        ;
+                .header("Authorization", token)
+                .when().post(Environment.BASE_URL+ path)
+                .then().log().all().extract().response();
+
+
+
+        //assign email and password value to these variables so that we can use them later for deleting
 
 
     }
+
+
+
 
     @Then("I delete previously added student")
     public void i_delete_previously_added_student() {
-        BookItApiUtil.deleteStudent(studentEmail,studentPassword);
-    }
 
+        BookItApiUtil.deleteStudent(studentEmail, studentPassword);
+
+    }
 
     @Given("I logged Bookit api as {string}")
     public void iLoggedBookitApiAs(String role) {
-       token= BookItApiUtil.getTokenByRole(role);
+        token = BookItApiUtil.getTokenByRole(role);
     }
+
 }
+

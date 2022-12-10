@@ -11,13 +11,13 @@ public class SignInPage {
 		PageFactory.initElements(Driver.get(), this);
 	}	
 	
-	@FindBy(name="email")
+	@FindBy(xpath = "//input[@placeholder='email']")
 	public WebElement email;
 
-	@FindBy(name = "password")
+	@FindBy(xpath = "//input[@name='password']")
 	public WebElement password;
 	
-	@FindBy(xpath = "//button[.='sign in']")
+	@FindBy(xpath = "//button[@class='button is-dark']")
 	public WebElement signInButton;
 	
 }

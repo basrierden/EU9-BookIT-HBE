@@ -11,7 +11,8 @@ import org.junit.runner.RunWith;
         features = "src/test/resources/features/",
         glue = "com/bookit/step_definitions/",
         dryRun = false,
-        tags = "@wip"
+        tags = "@wipHasan"
 )
 public class CukesRunner {
+
 }
